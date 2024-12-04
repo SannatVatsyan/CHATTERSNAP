@@ -15,17 +15,20 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
-
-  socket.on('message', (message) => {
-    console.log('Message received:', message);
-    io.emit('message', message); // Broadcast the message to all connected users
+    console.log('A user connected:', socket.id);
+  
+    socket.on('send-signal', ({ userToSignal, callerId, signal }) => {
+      io.to(userToSignal).emit('receive-call', { signal, callerId });
+    });
+  
+    socket.on('accept-call', ({ signal, callerId }) => {
+      io.to(callerId).emit('call-accepted', signal);
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('A user disconnected:', socket.id);
+    });
   });
-
-  socket.on('disconnect', () => {
-    console.log('A user disconnected:', socket.id);
-  });
-});
 
 const PORT = 5000;
 server.listen(PORT, () => {

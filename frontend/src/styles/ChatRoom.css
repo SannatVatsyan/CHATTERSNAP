@@ -5,4 +5,15 @@
     overflow-y: scroll;
     margin-bottom: 10px;
   }
+  .video-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
   
+  .local-video, .remote-video {
+    width: 45%;
+    height: auto;
+    object-fit: contain; /* Prevents the video from being stretched */
+    border: 2px solid #000; /* Optional border to distinguish videos */
+  }
